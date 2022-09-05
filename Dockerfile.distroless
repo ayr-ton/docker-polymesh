@@ -1,0 +1,16 @@
+FROM debian:stable-slim as download
+ADD https://polymesh-testnet-artifacts.s3.ca-central-1.amazonaws.com/concourse/polymesh-healthcheck/check-latest /usr/local/bin/check
+ADD https://polymesh-testnet-artifacts.s3.ca-central-1.amazonaws.com/concourse/polymesh-rotatekeys/rotate-latest /usr/local/bin/rotate
+RUN chmod 0755 /usr/local/bin/check
+RUN chmod 0755 /usr/local/bin/rotate
+FROM polymeshassociation/polymesh:5.0.2-mainnet-distroless
+COPY --chown=4002:4002 --from=download /usr/local/bin/check /usr/local/bin/check
+COPY --chown=4002:4002 --from=download /usr/local/bin/rotate /usr/local/bin/rotate
+ENTRYPOINT ["/polymesh"]
+CMD [ "-d", "/var/lib/polymesh" ]
+HEALTHCHECK \
+    --interval=10s \
+    --start-period=120s \
+    --timeout=5s \
+    --retries=6 \
+    CMD /usr/local/bin/check liveness
