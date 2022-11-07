@@ -11,11 +11,11 @@ podman pull docker.io/ayrton/polymesh
 ## Building this image
 
 ```
-buildah build -t docker.io/ayrton/polymesh:5.0.2-mainnet-distroless Dockerfile.distroless
+buildah build -t docker.io/ayrton/polymesh:5.0.4-mainnet-distroless Dockerfile.distroless
 ```
 
 ## Pushing this image to the registry
 
 ```
-buildah push docker.io/ayrton/polymesh:5.0.2-mainnet-distroless
+buildah push docker.io/ayrton/polymesh:5.0.4-mainnet-distroless
 ```
